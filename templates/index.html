@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROG Xbox Ally Chatbot</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f1419 0%, #1a2332 50%, #0f1419 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: rgba(0, 120, 215, 0.1);
+            border-radius: 20px;
+            border: 2px solid rgba(0, 120, 215, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #00b4ff, #0078d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(0, 180, 255, 0.5);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #b0b0b0;
+            margin-bottom: 20px;
+        }
+
+        .xbox-logo {
+            font-size: 2rem;
+            color: #00b4ff;
+            margin-bottom: 20px;
+        }
+
+        .chat-container {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .chat-interface {
+            flex: 2;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .chat-messages {
+            height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 15px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            background: linear-gradient(135deg, #0078d4, #00b4ff);
+            margin-left: auto;
+            text-align: right;
+        }
+
+        .bot-message {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 15px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-size: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .chat-input input:focus {
+            outline: none;
+            border-color: #00b4ff;
+            box-shadow: 0 0 20px rgba(0, 180, 255, 0.3);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .chat-input input::placeholder {
+            color: #b0b0b0;
+        }
+
+        .send-btn {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #0078d4, #00b4ff);
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 180, 255, 0.4);
+        }
+
+        .send-btn:active {
+            transform: translateY(0);
+        }
+
+        .info-panel {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .info-panel h3 {
+            color: #00b4ff;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-icon {
+            color: #00b4ff;
+            font-size: 1.2rem;
+            width: 25px;
+        }
+
+        .quick-questions {
+            margin-top: 30px;
+        }
+
+        .quick-questions h4 {
+            color: #00b4ff;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .question-btn {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .question-btn:hover {
+            background: rgba(0, 180, 255, 0.2);
+            border-color: #00b4ff;
+            transform: translateX(5px);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #b0b0b0;
+            font-size: 0.9rem;
+        }
+
+        .typing-indicator {
+            display: none;
+            padding: 15px;
+            color: #b0b0b0;
+            font-style: italic;
+        }
+
+        .typing-indicator.show {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .chat-container {
+                flex-direction: column;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+        }
+
+        .scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(0, 180, 255, 0.5);
+            border-radius: 10px;
+        }
+
+        .scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 180, 255, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="xbox-logo">
+                <i class="fab fa-xbox"></i>
+            </div>
+            <h1>ROG Xbox Ally ENHANCED Chatbot</h1>
+            <p>Your AI expert with COMPLETE data from the Xbox website!</p>
+            <p>463 data points • All tabs • Interactive elements • Complete specs</p>
+        </div>
+
+        <div class="chat-container">
+            <div class="chat-interface">
+                <h3 style="color: #00b4ff; margin-bottom: 20px; text-align: center;">
+                    <i class="fas fa-comments"></i> Chat with Xbox Ally Bot
+                </h3>
+                
+                <div class="chat-messages scrollbar" id="chatMessages">
+                    <div class="message bot-message">
+                        <strong>🚀 ENHANCED Xbox Ally Bot:</strong> Hello! I'm your SUPER-ENHANCED AI expert with COMPLETE data from the Xbox website! I now have access to:
+                        <br><br>
+                        📊 <strong>463 data points</strong> from the Xbox ROG Ally website<br>
+                        🎯 <strong>All tabs, sections, and interactive elements</strong><br>
+                        ⚙️ <strong>Complete specifications</strong> and technical details<br>
+                        🎮 <strong>All gaming features</strong> and capabilities<br>
+                        🔍 <strong>Detailed model comparisons</strong> and differences<br>
+                        💻 <strong>Complete interface and control information</strong><br><br>
+                        I can answer ANY question with data directly from the Xbox website! What would you like to know?
+                    </div>
+                </div>
+
+                <div class="typing-indicator" id="typingIndicator">
+                    <i class="fas fa-circle-notch fa-spin"></i> Xbox Ally Bot is typing...
+                </div>
+
+                <div class="chat-input">
+                    <input type="text" id="messageInput" placeholder="Ask me about ROG Xbox Ally..." onkeypress="handleKeyPress(event)">
+                    <button class="send-btn" onclick="sendMessage()">
+                        <i class="fas fa-paper-plane"></i> Send
+                    </button>
+                </div>
+            </div>
+
+            <div class="info-panel">
+                <h3><i class="fas fa-info-circle"></i> Device Overview</h3>
+                <ul class="feature-list">
+                    <li>
+                        <i class="fas fa-microchip feature-icon"></i>
+                        <span>AMD Ryzen AI Z2 Extreme / Z2 A</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-memory feature-icon"></i>
+                        <span>16GB/24GB LPDDR5X RAM</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-hdd feature-icon"></i>
+                        <span>512GB/1TB M.2 SSD</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-tv feature-icon"></i>
+                        <span>7" FHD 120Hz Display</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-battery-full feature-icon"></i>
+                        <span>60Wh/80Wh Battery</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-gamepad feature-icon"></i>
+                        <span>Xbox-Inspired Controls</span>
+                    </li>
+                </ul>
+
+                <div class="quick-questions">
+                    <h4><i class="fas fa-lightning-bolt"></i> Quick Questions</h4>
+                    <button class="question-btn" onclick="askQuestion('What are the differences between Ally and Ally X?')">
+                        Ally vs Ally X differences
+                    </button>
+                    <button class="question-btn" onclick="askQuestion('What are the specifications?')">
+                        Device specifications
+                    </button>
+                    <button class="question-btn" onclick="askQuestion('Does it support Xbox Game Pass?')">
+                        Xbox Game Pass support
+                    </button>
+                    <button class="question-btn" onclick="askQuestion('How does cloud gaming work?')">
+                        Cloud gaming features
+                    </button>
+                    <button class="question-btn" onclick="askQuestion('Tell me about the controls')">
+                        Control layout & features
+                    </button>
+                    <button class="question-btn" onclick="askQuestion('What ports and connectivity does it have?')">
+                        Ports & connectivity
+                    </button>
+                    <button class="question-btn" onclick="askQuestion('What is the battery life like?')">
+                        Battery life & power
+                    </button>
+                    <button class="question-btn" onclick="askQuestion('How does the Xbox experience work?')">
+                        Xbox interface & Game Bar
+                    </button>
+                    <button class="question-btn" onclick="askQuestion('What accessories are included?')">
+                        Included accessories
+                    </button>
+                    <button class="question-btn" onclick="askQuestion('Can I upgrade the storage?')">
+                        Storage upgrade options
+                    </button>
+                    <button class="question-btn" onclick="askQuestion('How does remote play work?')">
+                        Xbox remote play
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>🚀 ENHANCED Chatbot • 463 Data Points • Complete Xbox Website Data • Powered by FastAPI</p>
+        </div>
+    </div>
+
+    <script>
+        function addMessage(message, isUser = false) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+            
+            if (isUser) {
+                messageDiv.innerHTML = `<strong>You:</strong> ${message}`;
+            } else {
+                messageDiv.innerHTML = `<strong>Xbox Ally Bot:</strong> ${message.replace(/\n/g, '<br>')}`;
+            }
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            document.getElementById('typingIndicator').classList.add('show');
+        }
+
+        function hideTypingIndicator() {
+            document.getElementById('typingIndicator').classList.remove('show');
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            addMessage(message, true);
+            input.value = '';
+            
+            showTypingIndicator();
+            
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `message=${encodeURIComponent(message)}`
+                });
+                
+                const data = await response.json();
+                hideTypingIndicator();
+                addMessage(data.response);
+            } catch (error) {
+                hideTypingIndicator();
+                addMessage('Sorry, I encountered an error. Please try again.');
+                console.error('Error:', error);
+            }
+        }
+
+        function askQuestion(question) {
+            document.getElementById('messageInput').value = question;
+            sendMessage();
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // Auto-scroll to bottom when new messages are added
+        const chatMessages = document.getElementById('chatMessages');
+        const observer = new MutationObserver(() => {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        });
+        
+        observer.observe(chatMessages, {
+            childList: true,
+            subtree: true
+        });
+    </script>
+</body>
+</html> 
