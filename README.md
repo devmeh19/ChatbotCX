@@ -28,51 +28,34 @@ Here's how the ROG Xbox Ally Chatbot looks:
 ![Chatbot UI](screenshots/3.png)
 ![Chatbot UI](screenshots/4.png)
 
-Modified templates/index.html for:
+#Modified templates/index.html for:
 
 Xbox-themed colors
-
 Responsive layout
-
 Chat message bubbles
-
 Custom CSS ensures mobile and desktop friendliness.
 
-8. Testing & Polishing
+# Testing & Polishing
 Verified conversation flows:
-
 Greeting
-
 Keyword queries
-
 Scraped-data fallbacks
-
 Resolved IndentationError issues in Python code.
-
 Confirmed template rendering and chatbot responses in real-time.
 
-💬 Sample Questions
+#💬 Sample Questions
 "What are the differences between Ally and Ally X?"
-
 "Does it support Xbox Game Pass?"
-
 "What are the specifications?"
-
 "How does cloud gaming work?"
-
 "Tell me about the controls"
-
 "What's the battery life like?"
-
 "Can I upgrade the storage?"
-
 "How does the display look?"
 
-🔧 API Endpoints
+#🔧 API Endpoints
 GET / - Main chat interface
-
 POST /chat - Send a message and get response
-
 GET /api/chat?message=... - API endpoint for programmatic access
 
 🌐 Deployment
