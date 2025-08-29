@@ -1,182 +1,205 @@
-# ROG Xbox Ally Chatbot
+ROG Xbox Ally Chatbot
 
 A modern, interactive chatbot web application designed to answer queries about the ROG Xbox Ally handheld gaming device. Built with FastAPI and featuring a beautiful Xbox-themed UI.
 
-## 🎮 Features
+🎮 Features
 
-- **Intelligent Chatbot**: AI-powered responses about ROG Xbox Ally specifications and features
-- **Modern UI**: Xbox-themed design with responsive layout
-- **Real-time Chat**: Interactive chat interface with typing indicators
-- **Quick Questions**: Pre-built question buttons for common queries
-- **Device Information**: Comprehensive specs and feature overview
-- **Mobile Responsive**: Works seamlessly on all devices
+Intelligent Chatbot: AI-powered responses about ROG Xbox Ally specifications and features
 
-## 🚀 Technology Stack
+Modern UI: Xbox-themed design with responsive layout
 
-- **Backend**: FastAPI (Python)
-- **Frontend**: HTML5, CSS3, JavaScript (Vanilla)
-- **Styling**: Custom CSS with Xbox theme
-- **Icons**: Font Awesome
-- **Server**: Uvicorn
+Real-time Chat: Interactive chat interface with typing indicators
 
-## 📋 Prerequisites
+Quick Questions: Pre-built question buttons for common queries
 
-- Python 3.8 or higher
-- pip (Python package installer)
+Device Information: Comprehensive specs and feature overview
 
-## 🛠️ Installation
+Mobile Responsive: Works seamlessly on all devices
 
-1. **Clone or download the project files**
+🚀 Technology Stack
 
-2. **Install Python dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
+Backend: FastAPI (Python)
 
-3. **Run the application**:
-   ```bash
-   python main.py
-   ```
+Frontend: HTML5, CSS3, JavaScript (Vanilla)
 
-4. **Open your browser** and navigate to:
-   ```
-   http://localhost:8000
-   ```
+Styling: Custom CSS with Xbox theme
 
-## 🎯 What the Chatbot Knows
+Icons: Font Awesome
 
-The chatbot is trained on comprehensive information about the ROG Xbox Ally devices:
+Server: Uvicorn
 
-### Device Models
-- **ROG Xbox Ally X**: 24GB RAM, 1TB storage, AMD Ryzen AI Z2 Extreme
-- **ROG Xbox Ally**: 16GB RAM, 512GB storage, AMD Ryzen Z2 A
+📋 Development Process & Code Changes
+1. Polished Greeting Logic
 
-### Specifications
-- **Processor**: AMD Ryzen AI Z2 Extreme / Z2 A
-- **Memory**: 16GB/24GB LPDDR5X RAM
-- **Storage**: 512GB/1TB M.2 2280 SSD (upgradeable)
-- **Display**: 7" FHD (1080p) IPS, 120Hz, 500 nits
-- **Battery**: 60Wh/80Wh for extended gaming
+Implemented in main.py inside get_chatbot_response():
 
-### Gaming Features
-- **Xbox Game Pass**: Instant access to hundreds of games
-- **Cloud Gaming**: Xbox Cloud Gaming (Beta) support
-- **Xbox Play Anywhere**: Buy once, play anywhere
-- **Remote Play**: Play Xbox console games remotely
+if user_message in ["hi", "hello", "hey", "yo", "sup", "greetings"]:
+    return (
+        "🤖 **ENHANCED Xbox Ally Bot**: Hello there! I'm your **SUPER-ENHANCED AI expert** with **complete data** "
+        "from the Xbox ROG Ally website! 🚀\n\n"
+        "📊 463+ data points from the ROG Ally site\n"
+        "🎯 All tabs, sections, & interactive elements\n"
+        "⚙️ Full specifications & technical details\n"
+        "🎮 Gaming features & performance insights\n"
+        "🔍 Model comparisons & differences\n"
+        "💻 Complete UI, controls, & interface info\n\n"
+        "Ask me **anything** about the Xbox ROG Ally!"
+    )
 
-### Controls & Interface
-- **Xbox-Inspired Controls**: ABXY buttons, contoured grips
-- **Advanced Triggers**: Impulse triggers (Ally X) or Hall Effect (Ally)
-- **Xbox Experience**: Full-screen Xbox interface optimized for handheld
-- **Game Bar**: Quick access to tools and widgets
 
-### Connectivity
-- **WiFi 6E** and **Bluetooth 5.4**
-- **USB-C ports** with DisplayPort support
-- **microSD card reader** for expandable storage
-- **3.5mm audio jack**
+Ensures users are greeted with a rich, engaging introduction.
 
-## 💬 Sample Questions
+2. Keyword-Based Responses
 
-Try asking the chatbot:
+Added multiple conditional checks for keywords like specs, display, gaming, models, controls, connectivity, accessories, price, use.
 
-- "What are the differences between Ally and Ally X?"
-- "Does it support Xbox Game Pass?"
-- "What are the specifications?"
-- "How does cloud gaming work?"
-- "Tell me about the controls"
-- "What's the battery life like?"
-- "Can I upgrade the storage?"
-- "How does the display look?"
+Located in get_chatbot_response():
 
-## 🔧 API Endpoints
+elif any(word in user_message for word in ["specs", "processor", "ram", "storage"]):
+    response = ENHANCED_KNOWLEDGE["specs"]["processor"] + "\n\n" + ENHANCED_KNOWLEDGE["specs"]["memory"] + "\n\n" + ENHANCED_KNOWLEDGE["specs"]["storage"]
 
-- **GET /** - Main chat interface
-- **POST /chat** - Send a message and get response
-- **GET /api/chat?message=...** - API endpoint for programmatic access
 
-## 🎨 Customization
+Added similar blocks for other categories, referencing ENHANCED_KNOWLEDGE dictionary.
 
-### Adding New Knowledge
+3. Scraped Data Integration
 
-To add new information to the chatbot, edit the `CHATBOT_KNOWLEDGE` dictionary in `main.py`:
+Created search_scraped_data(user_message) function.
 
-```python
-CHATBOT_KNOWLEDGE = {
-    "new_category": {
-        "new_topic": "Your new information here"
+Added cleaning logic to remove HTML, JSON, or large text blocks:
+
+def clean_results(results):
+    clean = []
+    for r in results:
+        if len(r) > 300 or "window.__PRELOADED_STATE__" in r or "{" in r or "<" in r:
+            continue
+        clean.append(r.strip())
+    return clean
+
+
+Ensures fallback responses are concise and readable.
+
+4. Jinja2 Template Integration
+
+Initialized templates:
+
+from fastapi.templating import Jinja2Templates
+templates = Jinja2Templates(directory="../templates")  # templates one level above script
+
+
+Changes ensure proper template directory recognition and dynamic rendering of the chat UI.
+
+5. Enhanced Knowledge Base
+
+Created ENHANCED_KNOWLEDGE dictionary in main.py:
+
+ENHANCED_KNOWLEDGE = {
+    "general": {
+        "what_is": "The ROG Xbox Ally is a premium handheld gaming device with Xbox integration...",
+        "models": "The Ally X vs Ally: differences in RAM, storage, and processor..."
+    },
+    "specs": {
+        "processor": "...",
+        "memory": "...",
+        "storage": "...",
+        "display": "...",
+        "battery": "..."
     }
 }
-```
 
-### Modifying Responses
 
-Update the `get_chatbot_response()` function to handle new keywords and provide appropriate responses.
+All keyword checks reference this dictionary to provide structured responses.
 
-### Styling Changes
+6. Fallback & Default Responses
 
-Modify the CSS in `templates/index.html` to change colors, fonts, or layout.
+Final fallback added for unrecognized queries:
 
-## 🌐 Deployment
+if scraped_results:
+    response = "📖 Here's what I found based on Xbox site data:\n" + "\n".join(scraped_results[:3])
+else:
+    response = "Hey there! Could you tell me a bit more so I can help you better?"
 
-### Local Development
-```bash
-python main.py
-```
+7. UI & Styling
 
-### Production Deployment
-For production deployment, consider using:
-- **Gunicorn** with FastAPI
-- **Docker** containerization
-- **Cloud platforms** like Heroku, AWS, or Azure
+Modified templates/index.html for:
 
-## 📱 Mobile Support
+Xbox-themed colors
 
-The application is fully responsive and works on:
-- Desktop computers
-- Tablets
-- Mobile phones
-- Gaming handhelds
+Responsive layout
 
-## 🔍 Troubleshooting
+Chat message bubbles
 
-### Common Issues
+Custom CSS ensures mobile and desktop friendliness.
 
-1. **Port already in use**: Change the port in `main.py` or kill the process using the port
-2. **Dependencies not found**: Ensure you've run `pip install -r requirements.txt`
-3. **Template not found**: Ensure the `templates` folder exists with `index.html`
+8. Testing & Polishing
 
-### Error Logs
+Verified conversation flows:
 
-Check the console output for any error messages when running the application.
+Greeting
 
-## 🤝 Contributing
+Keyword queries
 
-Feel free to contribute by:
-- Adding new features
-- Improving the knowledge base
-- Enhancing the UI/UX
-- Fixing bugs
-- Adding new API endpoints
+Scraped-data fallbacks
 
-## 📄 License
+Resolved IndentationError issues in Python code.
 
-This project is open source and available under the MIT License.
+Confirmed template rendering and chatbot responses in real-time.
 
-## 🙏 Acknowledgments
+💬 Sample Questions
 
-- Microsoft Xbox for the ROG Xbox Ally product information
-- FastAPI team for the excellent web framework
-- Font Awesome for the beautiful icons
+"What are the differences between Ally and Ally X?"
 
-## 📞 Support
+"Does it support Xbox Game Pass?"
 
-If you encounter any issues or have questions:
-1. Check the troubleshooting section
-2. Review the console logs
-3. Ensure all dependencies are installed
-4. Verify the file structure is correct
+"What are the specifications?"
 
----
+"How does cloud gaming work?"
 
-**Happy Gaming with ROG Xbox Ally! 🎮✨** 
+"Tell me about the controls"
+
+"What's the battery life like?"
+
+"Can I upgrade the storage?"
+
+"How does the display look?"
+
+🔧 API Endpoints
+
+GET / - Main chat interface
+
+POST /chat - Send a message and get response
+
+GET /api/chat?message=... - API endpoint for programmatic access
+
+🌐 Deployment
+
+Local Development: python main.py
+
+Production Deployment: Use Gunicorn, Docker, or cloud platforms (Heroku/AWS/Azure)
+
+📱 Mobile Support
+
+Fully responsive across desktops, tablets, mobiles, and gaming handhelds
+
+🤝 Contributing
+
+Add new features
+
+Improve knowledge base
+
+Enhance UI/UX
+
+Fix bugs
+
+📄 License
+
+MIT License
+
+🙏 Acknowledgments
+
+Microsoft Xbox for product information
+
+FastAPI team
+
+Font Awesome for icons
+
+Happy Gaming with ROG Xbox Ally! 🎮✨
