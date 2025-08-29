@@ -19,6 +19,67 @@ A modern, interactive chatbot web application designed to answer queries about t
 - **Icons**: Font Awesome
 - **Server**: Uvicorn
 
+
+### Chatbot Interface
+Here's how the ROG Xbox Ally Chatbot looks:
+
+![Chatbot UI](screenshots/1.png)
+![Chatbot UI](screenshots/2.png)
+![Chatbot UI](screenshots/3.png)
+![Chatbot UI](screenshots/4.png)
+
+Modified templates/index.html for:
+
+Xbox-themed colors
+
+Responsive layout
+
+Chat message bubbles
+
+Custom CSS ensures mobile and desktop friendliness.
+
+8. Testing & Polishing
+Verified conversation flows:
+
+Greeting
+
+Keyword queries
+
+Scraped-data fallbacks
+
+Resolved IndentationError issues in Python code.
+
+Confirmed template rendering and chatbot responses in real-time.
+
+💬 Sample Questions
+"What are the differences between Ally and Ally X?"
+
+"Does it support Xbox Game Pass?"
+
+"What are the specifications?"
+
+"How does cloud gaming work?"
+
+"Tell me about the controls"
+
+"What's the battery life like?"
+
+"Can I upgrade the storage?"
+
+"How does the display look?"
+
+🔧 API Endpoints
+GET / - Main chat interface
+
+POST /chat - Send a message and get response
+
+GET /api/chat?message=... - API endpoint for programmatic access
+
+🌐 Deployment
+Local Development: python main.py
+
+Production Deployment: Use Gunicorn, Docker, or cloud platforms (Heroku/AWS/Azure)
+
 ## 📋 Development Process & Code Changes
 
 ### **1. Polished Greeting Logic**
@@ -104,64 +165,7 @@ if scraped_results:
 else:
     response = "Hey there! Could you tell me a bit more so I can help you better?"
 7. UI & Styling
-Modified templates/index.html for:
-
-Xbox-themed colors
-
-Responsive layout
-
-Chat message bubbles
-
-Custom CSS ensures mobile and desktop friendliness.
-
-8. Testing & Polishing
-Verified conversation flows:
-
-Greeting
-
-Keyword queries
-
-Scraped-data fallbacks
-
-Resolved IndentationError issues in Python code.
-
-Confirmed template rendering and chatbot responses in real-time.
-
-💬 Sample Questions
-"What are the differences between Ally and Ally X?"
-
-"Does it support Xbox Game Pass?"
-
-"What are the specifications?"
-
-"How does cloud gaming work?"
-
-"Tell me about the controls"
-
-"What's the battery life like?"
-
-"Can I upgrade the storage?"
-
-"How does the display look?"
-
-🔧 API Endpoints
-GET / - Main chat interface
-
-POST /chat - Send a message and get response
-
-GET /api/chat?message=... - API endpoint for programmatic access
-
-🌐 Deployment
-Local Development: python main.py
-
-Production Deployment: Use Gunicorn, Docker, or cloud platforms (Heroku/AWS/Azure)
 
 
 
-### Chatbot Interface
-Here's how the ROG Xbox Ally Chatbot looks:
 
-![Chatbot UI](screenshots/1.png)
-![Chatbot UI](screenshots/2.png)
-![Chatbot UI](screenshots/3.png)
-![Chatbot UI](screenshots/4.png)
