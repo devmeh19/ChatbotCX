@@ -155,3 +155,13 @@ GET /api/chat?message=... - API endpoint for programmatic access
 Local Development: python main.py
 
 Production Deployment: Use Gunicorn, Docker, or cloud platforms (Heroku/AWS/Azure)
+
+
+
+### Chatbot Interface
+Here's how the ROG Xbox Ally Chatbot looks:
+
+![Chatbot UI](screenshots/1.png)
+![Chatbot UI](screenshots/2.png)
+![Chatbot UI](screenshots/3.png)
+![Chatbot UI](screenshots/4.png)
